@@ -8,19 +8,21 @@ class AvailableChoices extends StatelessWidget {
   final List<List<CourseType>> avail = [];
   @override
   Widget build(BuildContext context) {
-    for (int i = 0; i < pow(2, courses.length); ++i) {
-      int counter = 0;
-      List<CourseType> choices = [];
-      int temp = i;
-      while (temp != 0) {
-        int bit = temp & 1;
-        if (bit == 1) {
-          choices.add(courses[counter]);
+    if (courses.length == 0) {
+      for (int i = 0; i < pow(2, courses.length); ++i) {
+        int counter = 0;
+        List<CourseType> choices = [];
+        int temp = i;
+        while (temp != 0) {
+          int bit = temp & 1;
+          if (bit == 1) {
+            choices.add(courses[counter]);
+          }
+          temp >>= 1;
+          counter++;
         }
-        temp >>= 1;
-        counter++;
+        avail.add(choices);
       }
-      avail.add(choices);
     }
     return ListView.builder(
       padding: EdgeInsets.zero,
