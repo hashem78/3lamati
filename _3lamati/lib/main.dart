@@ -80,6 +80,7 @@ class App extends StatelessWidget {
                         courseLoad: courseLoadDropdownButtonValue,
                       );
                       coursesNotifier.insert(temp);
+                      courseNameTextField.controller.clear();
                     },
                   ),
                   SizedBox(
