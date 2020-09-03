@@ -13,16 +13,44 @@ AlamatiValueNotifier coursesNotifier = AlamatiValueNotifier(courses);
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AlamatiTextField courseNameTextField = AlamatiTextField(coursesNotifier);
+    AlamatiTextField courseNameTextField = AlamatiTextField();
 
-    String courseMarkDropDownButtonValue = "";
+    String courseMarkDropdownButtonValue = "A+";
+    int courseLoadDropdownButtonValue = 1;
 
-    var courseMarkDropdownButton = DropdownButton(
+    var courseMarkDropdownButton = DropdownButton<String>(
       icon: Icon(Icons.arrow_drop_down),
-      iconSize: 70,
-      items:
-          kdefaultMarks.map((e) => DropdownMenuItem(child: Text(e))).toList(),
-      onChanged: (val) => courseMarkDropDownButtonValue = val,
+      iconSize: 40,
+      hint: Text("Mark"),
+      items: kdefaultMarks
+          .map(
+            (e) => DropdownMenuItem<String>(
+              child: Text(e),
+              value: e,
+            ),
+          )
+          .toList(),
+      onChanged: (val) {
+        print("val: $val");
+        courseMarkDropdownButtonValue = val;
+      },
+    );
+    var courseLoadDropdownButton = DropdownButton<int>(
+      icon: Icon(Icons.arrow_drop_down),
+      iconSize: 40,
+      hint: Text("Load"),
+      items: [1, 2, 3, 4, 5, 6]
+          .map(
+            (e) => DropdownMenuItem<int>(
+              child: Text(e.toString()),
+              value: e,
+            ),
+          )
+          .toList(),
+      onChanged: (val) {
+        print("val: $val");
+        courseLoadDropdownButtonValue = val;
+      },
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -34,25 +62,40 @@ class App extends StatelessWidget {
                 children: [
                   courseNameTextField,
                   SizedBox(
-                    width: 50,
+                    width: 30,
                   ),
                   courseMarkDropdownButton,
+                  SizedBox(
+                    width: 30,
+                  ),
+                  courseLoadDropdownButton,
                   RaisedButton(
                     child: Text("Add"),
                     onPressed: () {
+                      print(
+                          "mark${kCourseNameMarkMap[courseMarkDropdownButtonValue]}");
                       CourseType temp = CourseType(
-                          courseName: courseNameTextField.controller.text);
-                      temp.mark =
-                          kCourseNameMarkMap[courseMarkDropDownButtonValue];
+                        courseName: courseNameTextField.controller.text,
+                        mark: kCourseNameMarkMap[courseMarkDropdownButtonValue],
+                        courseLoad: courseLoadDropdownButtonValue,
+                      );
                       coursesNotifier.insert(temp);
                     },
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
                 ],
+              ),
+              RaisedButton(
+                onPressed: () => coursesNotifier.clear(),
+                child: Text("Clear"),
               ),
               Expanded(
                 child: ValueListenableBuilder<List<CourseType>>(
-                  builder: (context, newList, _) =>
-                      AvailableChoices(courses: newList),
+                  builder: (context, newList, _) {
+                    return AvailableChoices(courses: newList);
+                  },
                   valueListenable: coursesNotifier,
                 ),
               ),

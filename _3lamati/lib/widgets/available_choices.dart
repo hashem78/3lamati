@@ -23,8 +23,23 @@ class AvailableChoices extends StatelessWidget {
       avail.add(choices);
     }
     return ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: avail.length,
-        itemBuilder: (context, index) => Text(avail[index].join(' ')));
+      padding: EdgeInsets.zero,
+      itemCount: avail.length,
+      itemBuilder: (context, index) {
+        double sumMarks = 0;
+        int sumLoads = 0;
+        for (var course in avail[index]) {
+          print(course.courseName);
+          try {
+            sumMarks += course.mark * course.courseLoad;
+            sumLoads += course.courseLoad;
+          } catch (e) {
+            print(e);
+          }
+        }
+        double gpa = double.parse((sumMarks / sumLoads).toStringAsFixed(3));
+        return Text("${avail[index].join(' ')} $gpa");
+      },
+    );
   }
 }

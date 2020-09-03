@@ -7,4 +7,9 @@ class AlamatiValueNotifier extends ValueNotifier<List<CourseType>> {
     value.add(course);
     notifyListeners();
   }
+
+  void clear() {
+    value.clear();
+    notifyListeners();
+  }
 }
