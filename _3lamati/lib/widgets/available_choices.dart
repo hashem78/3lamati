@@ -16,12 +16,13 @@ class AvailableChoices extends StatelessWidget {
         while (temp != 0) {
           int bit = temp & 1;
           if (bit == 1) {
+            print("added ${courses[counter]}");
             choices.add(courses[counter]);
           }
           temp >>= 1;
           counter++;
         }
-        avail.add(choices);
+        if (choices.length != 0) avail.add(choices);
       }
     }
     return ListView.builder(
@@ -39,7 +40,7 @@ class AvailableChoices extends StatelessWidget {
             print(e);
           }
         }
-        double gpa = double.parse((sumMarks / sumLoads).toStringAsFixed(3));
+        double gpa = (sumMarks / sumLoads);
         return Text("${avail[index].join(' ')} $gpa");
       },
     );
