@@ -7,6 +7,10 @@ class AlamatiTextField extends StatelessWidget {
     return Expanded(
       child: TextField(
         controller: controller,
+        decoration: InputDecoration(
+          hintText: "Enter course name",
+          hintStyle: TextStyle(fontSize: 10),
+        ),
       ),
     );
   }
