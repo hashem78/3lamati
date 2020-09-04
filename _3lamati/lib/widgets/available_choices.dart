@@ -41,7 +41,26 @@ class AvailableChoices extends StatelessWidget {
           }
         }
         double gpa = (sumMarks / sumLoads);
-        return Text("${avail[index].join(' ')} $gpa");
+        return Card(
+          color: Colors.lightBlueAccent,
+          child: ListTile(
+            leading: Text(
+              "${gpa.toStringAsFixed(3)} |",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
+            title: Text(
+              avail[index].join(' '),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
       },
     );
   }
