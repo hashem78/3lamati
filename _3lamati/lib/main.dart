@@ -9,19 +9,24 @@ void main() => runApp(App());
 
 List<CourseType> courses = [];
 AlamatiValueNotifier coursesNotifier = AlamatiValueNotifier(courses);
+String courseMarkDropdownButtonValue = "A+";
+int courseLoadDropdownButtonValue = 1;
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     AlamatiTextField courseNameTextField = AlamatiTextField();
-
-    String courseMarkDropdownButtonValue = "A+";
-    int courseLoadDropdownButtonValue = 1;
 
     var courseMarkDropdownButton = DropdownButton<String>(
       icon: Icon(Icons.arrow_drop_down),
       iconSize: 40,
       hint: Text("Mark"),
+      value: courseMarkDropdownButtonValue,
       items: kdefaultMarks
           .map(
             (e) => DropdownMenuItem<String>(
@@ -32,13 +37,16 @@ class App extends StatelessWidget {
           .toList(),
       onChanged: (val) {
         print("val: $val");
-        courseMarkDropdownButtonValue = val;
+        setState(() {
+          courseMarkDropdownButtonValue = val;
+        });
       },
     );
     var courseLoadDropdownButton = DropdownButton<int>(
       icon: Icon(Icons.arrow_drop_down),
       iconSize: 40,
       hint: Text("Load"),
+      value: courseLoadDropdownButtonValue,
       items: [1, 2, 3, 4, 5, 6]
           .map(
             (e) => DropdownMenuItem<int>(
@@ -49,7 +57,9 @@ class App extends StatelessWidget {
           .toList(),
       onChanged: (val) {
         print("val: $val");
-        courseLoadDropdownButtonValue = val;
+        setState(() {
+          courseLoadDropdownButtonValue = val;
+        });
       },
     );
     return GestureDetector(
