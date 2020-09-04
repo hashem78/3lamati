@@ -52,55 +52,62 @@ class App extends StatelessWidget {
         courseLoadDropdownButtonValue = val;
       },
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          body: Column(
-            children: [
-              Row(
-                children: [
-                  courseNameTextField,
-                  SizedBox(
-                    width: 30,
-                  ),
-                  courseMarkDropdownButton,
-                  SizedBox(
-                    width: 30,
-                  ),
-                  courseLoadDropdownButton,
-                  RaisedButton(
-                    child: Text("Add"),
-                    onPressed: () {
-                      print(
-                          "mark${kCourseNameMarkMap[courseMarkDropdownButtonValue]}");
-                      CourseType temp = CourseType(
-                        courseName: courseNameTextField.controller.text,
-                        mark: kCourseNameMarkMap[courseMarkDropdownButtonValue],
-                        courseLoad: courseLoadDropdownButtonValue,
-                      );
-                      coursesNotifier.insert(temp);
-                      courseNameTextField.controller.clear();
-                    },
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                ],
-              ),
-              RaisedButton(
-                onPressed: () => coursesNotifier.clear(),
-                child: Text("Clear"),
-              ),
-              Expanded(
-                child: ValueListenableBuilder<List<CourseType>>(
-                  builder: (context, newList, _) {
-                    return AvailableChoices(courses: newList);
-                  },
-                  valueListenable: coursesNotifier,
+    return GestureDetector(
+      onTap: () {
+        FocusNode curr = FocusScope.of(context);
+        if (!curr.hasPrimaryFocus) FocusManager.instance.primaryFocus.unfocus();
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SafeArea(
+          child: Scaffold(
+            body: Column(
+              children: [
+                Row(
+                  children: [
+                    courseNameTextField,
+                    SizedBox(
+                      width: 30,
+                    ),
+                    courseMarkDropdownButton,
+                    SizedBox(
+                      width: 30,
+                    ),
+                    courseLoadDropdownButton,
+                    RaisedButton(
+                      child: Text("Add"),
+                      onPressed: () {
+                        print(
+                            "mark${kCourseNameMarkMap[courseMarkDropdownButtonValue]}");
+                        CourseType temp = CourseType(
+                          courseName: courseNameTextField.controller.text,
+                          mark:
+                              kCourseNameMarkMap[courseMarkDropdownButtonValue],
+                          courseLoad: courseLoadDropdownButtonValue,
+                        );
+                        coursesNotifier.insert(temp);
+                        courseNameTextField.controller.clear();
+                      },
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                RaisedButton(
+                  onPressed: () => coursesNotifier.clear(),
+                  child: Text("Clear"),
+                ),
+                Expanded(
+                  child: ValueListenableBuilder<List<CourseType>>(
+                    builder: (context, newList, _) {
+                      return AvailableChoices(courses: newList);
+                    },
+                    valueListenable: coursesNotifier,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
